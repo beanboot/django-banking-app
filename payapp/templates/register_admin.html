@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card p-4">
+            <h4 class="mb-3">Register New Administrator</h4>
+            {% if form.errors %}
+                <div class="alert alert-danger">Please correct the errors below.</div>
+            {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-dark w-100 mt-2">Create Administrator</button>
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-outline-secondary w-100 mt-2">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

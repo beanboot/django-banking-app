@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Payment Request</h2>
+
+{% if error %}
+    <p style="color:red;">{{ error }}</p>
+{% endif %}
+
+<p>{{ payment_request.requester.username }} is requesting
+   {{ payment_request.converted_amount }} {{ payment_request.converted_currency }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button name="action" value="accept">Accept</button>
+    <button name="action" value="reject">Reject</button>
+</form>
+
+<a href="{% url 'dashboard' %}">Back</a>
+
+{% endblock %}

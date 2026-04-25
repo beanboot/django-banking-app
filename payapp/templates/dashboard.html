@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card p-4 mb-4">
+            <h4>Welcome, {{ user.username }}</h4>
+            <h2 class="mt-2">{{ account.balance }} {{ account.currency }}</h2>
+            <p class="text-muted">Current Balance</p>
+            <a href="{% url 'send_payment' %}" class="btn btn-dark w-100 mb-2">Send Payment</a>
+            <a href="{% url 'request_payment' %}" class="btn btn-outline-dark w-100">Request Payment</a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        {% if pending_requests %}
+        <div class="card p-4">
+            <h5>Pending Requests</h5>
+            <table class="table table-hover mt-2">
+                <thead>
+                    <tr>
+                        <th>From</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pr in pending_requests %}
+                    <tr>
+                        <td>{{ pr.requester.username }}</td>
+                        <td>{{ pr.converted_amount }} {{ pr.converted_currency }}</td>
+                        <td>{{ pr.timestamp|date:"d M Y H:i" }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'handle_payment_request' pr.pk %}">
+                                {% csrf_token %}
+                                <button name="action" value="accept" class="btn btn-success btn-sm">Accept</button>
+                                <button name="action" value="reject" class="btn btn-danger btn-sm">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="card p-4">
+            <p class="text-muted mb-0">No pending payment requests.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

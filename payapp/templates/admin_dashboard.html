@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Admin Dashboard</h3>
+    <a href="{% url 'register_admin' %}" class="btn btn-dark">Register New Admin</a>
+</div>
+
+<div class="card p-4 mb-4">
+    <h5>User Accounts</h5>
+    <table class="table table-hover mt-2">
+        <thead class="table-dark">
+            <tr>
+                <th>Username</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Balance</th>
+                <th>Currency</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for account in accounts %}
+            <tr>
+                <td>{{ account.user.username }}</td>
+                <td>{{ account.user.first_name }}</td>
+                <td>{{ account.user.last_name }}</td>
+                <td>{{ account.user.email }}</td>
+                <td>{{ account.balance }}</td>
+                <td>{{ account.currency }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card p-4">
+    <h5>All Transactions</h5>
+    <table class="table table-hover mt-2">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Sender</th>
+                <th>Receiver</th>
+                <th>Amount Sent</th>
+                <th>Amount Received</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in transactions %}
+            <tr>
+                <td>{{ t.timestamp|date:"d M Y H:i" }}</td>
+                <td>{{ t.sender.username }}</td>
+                <td>{{ t.receiver.username }}</td>
+                <td>{{ t.amount }} {{ t.currency }}</td>
+                <td>{{ t.converted_amount }} {{ t.converted_currency }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
