@@ -125,9 +125,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Change to false when deployed to AWS
-DEBUG = True
-
 if not DEBUG:
     # HTTPS only active in production (AWS)
     SECURE_SSL_REDIRECT = True
